@@ -8,7 +8,8 @@ var googleAnalyticsConfigDefaults = {
   cookieDomain: null,
   cookieName: null,
   cookieExpires: null,
-  displayFeatures: false
+  displayFeatures: false,
+  logTracking: false
 };
 
 function analyticsTrackingCode(config) {
@@ -83,7 +84,8 @@ module.exports = {
       var content;
 
       if (googleAnalyticsConfig.tracker === 'analytics.js') {
-        content = analyticsTrackingCode(googleAnalyticsConfig);
+        // content = analyticsTrackingCode(googleAnalyticsConfig);
+        content = [];
       } else if (googleAnalyticsConfig.tracker === 'ga.js') {
         content = gaTrackingCode(googleAnalyticsConfig);
       } else {
