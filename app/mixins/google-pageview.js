@@ -14,7 +14,12 @@ export default Ember.Mixin.create({
     eventCategory: 'eventCategory',
     eventAction: 'eventAction',
     eventLabel: 'eventLabel',
-    eventValue: 'eventValue'
+    eventValue: 'eventValue',
+
+    // will make this data availalble to the api
+    hitTimestamp: 'dimension17'
+    sessionId: 'dimension18',
+    clientId:  'dimension19'
   },
   dimensionRegistry: {},
   user: null, // has to be set by primary app add to install notes
@@ -31,22 +36,17 @@ export default Ember.Mixin.create({
   userTitle: function() {
     return this.get('notLoggedIn') ? null : this.get('user').title;
   }.property('user'),
-  eventTypes: ['map_chart_interact', 'save_query', 'download'],
+  eventTypes: ['map_chart_interact', 'save_query', 'download', 'other_button'],
 
   beforePageviewToGA: function(ga) {
 
   },
   clearRegistry: function() {
     var dReg = this.get('dimensionRegistry');
-    dReg.length = 0;
+    dReg={};
     this.insertUserMeta();
     return;
   },
-  // processRegistry: function() {
-  //   dimensionRegistry.forEach(function(entry) {
-  //
-  //   });
-  // },
   setTrackingMeta: function(metaObj) {
     var dMap = this.get('dimensionMap');
     var dReg = this.get('dimensionRegistry');
