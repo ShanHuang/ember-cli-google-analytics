@@ -1,6 +1,6 @@
 {
   "name": "ember-cli-google-analytics",
-  "version": "1.5.0",
+  "version": "2.0.0",
   "description": "Ember CLI addon that adds the Google Analytics tracking code",
   "directories": {
     "doc": "doc",
@@ -13,12 +13,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/pgrippi/ember-cli-google-analytics.git"
+    "url": "git://github.com/dresources/ember-cli-google-analytics.git"
   },
   "bugs": {
-    "url": "https://github.com/pgrippi/ember-cli-google-analytics/issues"
+    "url": "https://github.com/dresources/ember-cli-google-analytics/issues"
   },
-  "homepage": "https://github.com/pgrippi/ember-cli-google-analytics",
+  "homepage": "https://github.com/dresources/ember-cli-google-analytics",
   "engines": {
     "node": ">= 0.10.0"
   },
