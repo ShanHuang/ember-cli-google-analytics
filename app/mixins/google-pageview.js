@@ -11,18 +11,24 @@ export default Ember.Mixin.create({
     uuid: 'dimension3',
     // reserving 4 to  9 for additional user dimensions
     pageType: 'dimension10', // 'search'|'filter'|'nav'|'detial'
+    searchText: 'dimension11',
+
+    // will make this data availalble to the api
+    hitTimestamp: 'dimension17',
+    sessionId: 'dimension18',
+    clientId:  'dimension19',
+    page: 'page',
+    title: 'title',
+    // allows event data to be configured
     eventCategory: 'eventCategory',
     eventAction: 'eventAction',
     eventLabel: 'eventLabel',
-    eventValue: 'eventValue',
-
-    // will make this data availalble to the api
-    hitTimestamp: 'dimension17'
-    sessionId: 'dimension18',
-    clientId:  'dimension19'
+    eventValue: 'eventValue'
   },
   dimensionRegistry: {},
   user: null, // has to be set by primary app add to install notes
+  clientId: null,
+  sessionId: null,
   notLoggedIn: computed.empty('user'),
   uuid: function() {
     return this.get('notLoggedIn') ? null : this.get('user').uuid;
@@ -43,7 +49,7 @@ export default Ember.Mixin.create({
   },
   clearRegistry: function() {
     var dReg = this.get('dimensionRegistry');
-    dReg={};
+    dReg = {};
     this.insertUserMeta();
     return;
   },
@@ -154,23 +160,24 @@ export default Ember.Mixin.create({
 
     }
   }),
-  eventToGA: function(eventCategory, eventAction, eventLabel) {
+  eventToGA: function(fields) {
     if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
       var trackerType = Ember.getWithDefault(ENV, 'googleAnalytics.tracker', 'analytics.js');
 
       if (trackerType === 'analytics.js') {
+        if (fields != null) this.setTrackingMeta(fields);
         var fieldsObj = this.get('dimensionRegistry');
         var globalVariable = Ember.getWithDefault(ENV, 'googleAnalytics.globalVariable', 'ga');
 
         this.beforePageviewToGA(window[globalVariable]);
         window[globalVariable]('set', fieldsObj);
-        window[globalVariable]('send', 'event', eventCategory, eventAction, eventLabel);
+        window[globalVariable]('send', 'event');
         // logging
-        this.logTracking('event', category, action, label, value, fieldsObj);
+        this.logTracking('event', fieldsObj);
         this.clearRegistry();
       } else if (trackerType === 'ga.js') {
         // not implemented
-        this.logTracking('ga.js call', category, action, label, value,    fieldsObj);
+        this.logTracking('ga.js call', 'event', fieldsObj);
         this.clearRegistry();
       }
     }
