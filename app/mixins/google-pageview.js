@@ -12,6 +12,7 @@ export default Ember.Mixin.create({
     // reserving 4 to  9 for additional user dimensions
     pageType: 'dimension10', // 'search'|'filter'|'nav'|'detial'
     searchText: 'dimension11',
+    searchCriteriaJson: 'dimension12', //a json.stringify of all search criteria for tableau use
 
     // will make this data availalble to the api
     hitTimestamp: 'dimension17',
