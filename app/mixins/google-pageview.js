@@ -10,7 +10,7 @@ export default Ember.Mixin.create({
     title: 'dimension2',
     uuid: 'dimension3',
     // reserving 4 to  9 for additional user dimensions
-    pageType: 'dimension10', // 'search'|'filter'|'nav'|'detial'
+    pageType: 'dimension10', // 'search'|'filter'|'nav'|'detail'
     searchText: 'dimension11',
     searchCriteriaJson: 'dimension12', //a json.stringify of all search criteria for tableau use
 
@@ -32,6 +32,7 @@ export default Ember.Mixin.create({
   sessionId: null,
   notLoggedIn: computed.empty('user'),
   uuid: function() {
+    console.log('google-pageview', detected user change);
     return this.get('notLoggedIn') ? null : this.get('user').uuid;
   }.property('user'),
   userCompany: function() {
