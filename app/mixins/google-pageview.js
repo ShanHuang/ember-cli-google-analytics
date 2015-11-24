@@ -45,7 +45,12 @@ export default Ember.Mixin.create({
     return this.get('notLoggedIn') ? null : this.get('user').title;
   }.property('user'),
   eventTypes: ['map_chart_interact', 'save_query', 'download', 'other_button'],
+  setUser: function(userObj) {
+    console.log('setUser',userObj)
+    this.set('user')=userObj;
+    this.prepare();
 
+  },
   beforePageviewToGA: function(ga) {
 
   },
