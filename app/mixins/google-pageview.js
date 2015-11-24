@@ -32,7 +32,7 @@ export default Ember.Mixin.create({
   sessionId: null,
   notLoggedIn: computed.empty('user'),
   uuid: function() {
-    console.log('google-pageview', detected user change);
+    console.log('google-pageview detected user change');
     return this.get('notLoggedIn') ? null : this.get('user').uuid;
   }.property('user'),
   userCompany: function() {
