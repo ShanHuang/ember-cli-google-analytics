@@ -81,6 +81,7 @@ export default Ember.Mixin.create({
     var cookieExpires = Ember.get(ENV, 'googleAnalytics.cookieExpires');
     var displayFeatures = Ember.get(ENV, 'googleAnalytics.displayFeatures');
 
+    console.log('analyticsTrackingCode');
     if (this.get('uuid') != null) {
       gaConfig.userId = this.get('uuid');
     } else {
