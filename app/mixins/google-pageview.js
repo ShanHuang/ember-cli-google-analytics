@@ -46,8 +46,8 @@ export default Ember.Mixin.create({
   }.property('user'),
   eventTypes: ['map_chart_interact', 'save_query', 'download', 'other_button'],
   setUser: function(userObj) {
-    console.log('setUser',userObj)
-    this.set('user')=userObj;
+    console.log('setUser', userObj);
+    this.set('user', userObj);
     this.prepare();
 
   },
