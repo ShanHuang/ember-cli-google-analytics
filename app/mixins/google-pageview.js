@@ -32,7 +32,7 @@ export default Ember.Mixin.create({
   sessionId: null,
   notLoggedIn: computed.empty('user'),
   uuid: function() {
-    console.log('google-pageview detected user change');
+    console.log('google-pageview detected user change', this.get('user'));
     return this.get('notLoggedIn') ? null : this.get('user').uuid;
   }.property('user'),
   userCompany: function() {
@@ -143,7 +143,7 @@ export default Ember.Mixin.create({
         throw new Error('Invalid tracker found in configuration: "' + Ember.get(ENV, 'googleAnalytics.tracker') + '". Must be one of: "analytics.js", "ga.js"');
       }
     }
-  }.on('init'),
+  },
   pageviewToGA: Ember.on('didTransition', function(page, title) {
     var page = page ? page : this.get('url');
     var title = title ? title : this.get('url');
