@@ -33,7 +33,8 @@ export default Ember.Mixin.create({
   notLoggedIn: computed.empty('user'),
   uuid: function() {
     console.log('google-pageview detected user change', this.get('user'));
-    return this.get('notLoggedIn') ? null : this.get('user').uuid;
+    // return this.get('notLoggedIn') ? null : this.get('user').uuid;
+    return this.get('notLoggedIn') ? null : 'this-is-a-test-uuid';
   }.property('user'),
   userCompany: function() {
     return this.get('notLoggedIn') ? null : this.get('user').company;
@@ -49,7 +50,6 @@ export default Ember.Mixin.create({
     console.log('setUser', userObj);
     this.set('user', userObj);
     this.prepare();
-
   },
   beforePageviewToGA: function(ga) {
 
