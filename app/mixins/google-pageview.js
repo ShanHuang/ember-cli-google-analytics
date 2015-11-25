@@ -84,7 +84,7 @@ export default Ember.Mixin.create({
     var cookieDomain = Ember.get(ENV, 'googleAnalytics.cookieDomain');
     var cookieName = Ember.get(ENV, 'googleAnalytics.cookieName');
     var cookieExpires = Ember.get(ENV, 'googleAnalytics.cookieExpires');
-    var webPropertyId = Ember.get(ENV, 'googleAnalytics.cookieExpires');
+    var webPropertyId = Ember.get(ENV, 'googleAnalytics.webPropertyId');
     var displayFeatures = Ember.get(ENV, 'googleAnalytics.displayFeatures');
 
     if (this.get('uuid') != null) {
