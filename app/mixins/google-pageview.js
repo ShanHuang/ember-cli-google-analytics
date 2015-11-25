@@ -130,8 +130,8 @@ export default Ember.Mixin.create({
 
   prepare: function() {
     var webPropertyId = this.get('webPropertyId');
+    console.log('analyticsTrackingCode', webPropertyId, this.get('user'));
     if (webPropertyId != null) {
-      this.insertScript(webPropertyId);
       if (Ember.get(ENV, 'googleAnalytics.tracker') === 'analytics.js') {
         this.analyticsTrackingCode();
       } else if (Ember.get(ENV, 'googleAnalytics.tracker') === 'ga.js') {
