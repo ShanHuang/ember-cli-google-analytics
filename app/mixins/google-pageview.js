@@ -84,6 +84,7 @@ export default Ember.Mixin.create({
     var cookieDomain = Ember.get(ENV, 'googleAnalytics.cookieDomain');
     var cookieName = Ember.get(ENV, 'googleAnalytics.cookieName');
     var cookieExpires = Ember.get(ENV, 'googleAnalytics.cookieExpires');
+    var webPropertyId = Ember.get(ENV, 'googleAnalytics.cookieExpires');
     var displayFeatures = Ember.get(ENV, 'googleAnalytics.displayFeatures');
 
     console.log('analyticsTrackingCode');
@@ -93,10 +94,10 @@ export default Ember.Mixin.create({
       if (cookieDomain != null) {
         gaConfig.cookieDomain = cookieDomain;
       }
-      if (config.cookieName != null) {
+      if (cookieName != null) {
         gaConfig.cookieName = cookieName;
       }
-      if (config.cookieExpires != null) {
+      if (cookieExpires != null) {
         gaConfig.cookieExpires = cookieExpires;
       }
       if (Object.keys(gaConfig).length === 0) {
@@ -118,7 +119,7 @@ export default Ember.Mixin.create({
       a.src = g;
       m.parentNode.insertBefore(a, m)
     })(window, document, 'script', '//www.google-analytics.com/analytics.js', globalVariable);
-    window[globalVariable]('create', config.webPropertyId, gaConfig);
+    window[globalVariable]('create', webPropertyId, gaConfig);
     /* jshint ignore:end */
 
     if (displayFeatures) {
@@ -129,8 +130,8 @@ export default Ember.Mixin.create({
   },
 
   prepare: function() {
-    var webPropertyId = this.get('webPropertyId');
-    console.log('analyticsTrackingCode', webPropertyId, this.get('user'));
+    var webPropertyId = Ember.get(ENV, 'googleAnalytics.webPropertyId');
+    console.log('prepare', webPropertyId, this.get('user'));
     if (webPropertyId != null) {
       if (Ember.get(ENV, 'googleAnalytics.tracker') === 'analytics.js') {
         this.analyticsTrackingCode();
