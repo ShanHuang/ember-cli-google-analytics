@@ -49,9 +49,14 @@ export default Ember.Mixin.create({
   }.property('user'),
   eventTypes: ['map_chart_interact', 'save_query', 'download', 'other_button'],
   setUser: function(userObj) {
-    console.log('setUser', userObj);
-    this.set('user', userObj);
-    this.prepare();
+    if (userObj != null) {
+      console.log('setUser', userObj);
+      this.set('user', userObj);
+      this.prepare();
+    } else {
+      console.log('setUser null');
+    }
+
   },
   beforePageviewToGA: function(ga) {
 
