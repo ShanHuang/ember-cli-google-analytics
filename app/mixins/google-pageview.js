@@ -78,6 +78,23 @@ export default Ember.Mixin.create({
       uuid: this.get('uuid')
     });
   },
+  gaInit: function() {
+    var globalVariable = Ember.getWithDefault(ENV, 'googleAnalytics.globalVariable', 'ga');
+    console.log('gaInit',  globalVariable);
+    /* jshint ignore:start */
+    (function(i, s, o, g, r, a, m) {
+      i.GoogleAnalyticsObject = r;
+      i[r] = i[r] || function() {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+      a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', globalVariable);
+    /* jshint ignore:end */
+  }.on('init'),
   analyticsTrackingCode: function() {
     var gaConfig = {};
     var globalVariable = Ember.getWithDefault(ENV, 'googleAnalytics.globalVariable', 'ga');
@@ -107,17 +124,7 @@ export default Ember.Mixin.create({
     }
     console.log('analyticsTrackingCode', gaConfig, globalVariable, webPropertyId);
     /* jshint ignore:start */
-    (function(i, s, o, g, r, a, m) {
-      i.GoogleAnalyticsObject = r;
-      i[r] = i[r] || function() {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', globalVariable);
+    // moved intialization code
     window[globalVariable]('create', webPropertyId, gaConfig);
     /* jshint ignore:end */
 
