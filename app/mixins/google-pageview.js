@@ -27,7 +27,9 @@ export default Ember.Mixin.create({
     eventValue: 'eventValue'
   },
   dimensionRegistry: {},
-  user: null, // has to be set by primary app add to install notes
+  user: function() {
+    return null;
+  }.on('init'), // has to be set by primary app add to install notes
   clientId: null,
   sessionId: null,
   notLoggedIn: computed.empty('user'),
