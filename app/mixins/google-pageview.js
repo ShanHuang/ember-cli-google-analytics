@@ -155,9 +155,7 @@ export default Ember.Mixin.create({
       }
     }
   },
-  sendPageview: function() {
-
-    var fieldsObj = this.get('dimensionRegistry');
+  sendPageview: function(fieldsObj) {
 
     if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
       var trackerType = Ember.getWithDefault(ENV, 'googleAnalytics.tracker', 'analytics.js');
@@ -185,7 +183,9 @@ export default Ember.Mixin.create({
     fieldsObj.title = title;
 
     if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
-      Ember.run.schedule('afterRender', this.sendPageview);
+      Ember.run.schedule('afterRender', function callSendGA() {
+        this.sendPageview(fieldsObj);
+      });
     }
   }),
   eventToGA: function(fields) {
