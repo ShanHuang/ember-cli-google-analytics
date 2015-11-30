@@ -185,7 +185,7 @@ export default Ember.Mixin.create({
     fieldsObj.title = title;
 
     if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
-      Ember.run.schedule('afterRender', sendPageview);
+      Ember.run.schedule('afterRender', this.sendPageview);
     }
   }),
   eventToGA: function(fields) {
