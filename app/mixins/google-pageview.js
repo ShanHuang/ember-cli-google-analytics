@@ -155,26 +155,6 @@ export default Ember.Mixin.create({
       }
     }
   },
-  sendPageview: function(fieldsObj, mixin) {
-
-    if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
-      var trackerType = Ember.getWithDefault(ENV, 'googleAnalytics.tracker', 'analytics.js');
-
-      if (trackerType === 'analytics.js') {
-        var globalVariable = Ember.getWithDefault(ENV, 'googleAnalytics.globalVariable', 'ga');
-
-        mixin.beforePageviewToGA(window[globalVariable]);
-        window[globalVariable]('set', fieldsObj);
-        window[globalVariable]('send', 'pageview');
-        // logging
-        mixin.logTracking('pageview', fieldsObj);
-        mixin.clearRegistry();
-      } else if (trackerType === 'ga.js') {
-        window._gaq.push(['_trackPageview']);
-      }
-
-    }
-  },
   pageviewToGA: Ember.on('didTransition', function(page, title) {
     var _this = this;
     var page = page ? page : this.get('url');
@@ -185,7 +165,23 @@ export default Ember.Mixin.create({
 
     if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
       Ember.run.schedule('afterRender', function callSendGA() {
-        _this.sendPageview(fieldsObj, _this);
+        if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
+          var trackerType = Ember.getWithDefault(ENV, 'googleAnalytics.tracker', 'analytics.js');
+
+          if (trackerType === 'analytics.js') {
+            var globalVariable = Ember.getWithDefault(ENV, 'googleAnalytics.globalVariable', 'ga');
+
+            _this.beforePageviewToGA(window[globalVariable]);
+            window[globalVariable]('set', fieldsObj);
+            window[globalVariable]('send', 'pageview');
+            // logging
+            _this.logTracking('pageview', fieldsObj);
+            _this.clearRegistry();
+          } else if (trackerType === 'ga.js') {
+            window._gaq.push(['_trackPageview']);
+          }
+
+        }
       });
     }
   }),
