@@ -62,14 +62,14 @@ export default Ember.Mixin.create({
   clearRegistry: function() {
     var dReg = this.get('dimensionRegistry');
     dReg = {};
-    this.insertUserMeta();
+
     return;
   },
   setTrackingMeta: function(metaObj) {
     var dMap = this.get('dimensionMap');
     var dReg = this.get('dimensionRegistry');
     for (var property in metaObj) {
-      if (dMap[property]) {
+      if (dMap[property] && metaObj[property] != undefined && metaObj[property] != null) {
         dReg[dMap[property]] = metaObj[property];
       }
     }
@@ -157,6 +157,7 @@ export default Ember.Mixin.create({
   },
   pageviewToGA: Ember.on('didTransition', function(page, title) {
     var _this = this;
+    this.insertUserMeta();
     var page = page ? page : this.get('url');
     var title = title ? title : this.get('url');
     var fieldsObj = this.get('dimensionRegistry');
@@ -190,6 +191,7 @@ export default Ember.Mixin.create({
       var trackerType = Ember.getWithDefault(ENV, 'googleAnalytics.tracker', 'analytics.js');
 
       if (trackerType === 'analytics.js') {
+        this.insertUserMeta();
         if (fields != null) this.setTrackingMeta(fields);
         var fieldsObj = this.get('dimensionRegistry');
         var globalVariable = Ember.getWithDefault(ENV, 'googleAnalytics.globalVariable', 'ga');
