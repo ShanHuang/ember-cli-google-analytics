@@ -33,8 +33,10 @@ export default Ember.Mixin.create({
   clientId: null,
   sessionId: null,
   notLoggedIn: computed.empty('user'),
+  gaInitialized: false,
+  trackerInitialized: false,
   uuid: function() {
-    console.log('google-pageview detected user change', this.get('user'));
+    this.logTracking('google-pageview detected user change', this.get('user'));
     // return this.get('notLoggedIn') ? null : this.get('user').uuid;
     return this.get('notLoggedIn') ? null : 'this-is-a-test-uuid';
   }.property('user'),
@@ -48,9 +50,9 @@ export default Ember.Mixin.create({
     return this.get('notLoggedIn') ? null : this.get('user').title;
   }.property('user'),
   eventTypes: ['map_chart_interact', 'save_query', 'download', 'other_button'],
-  setUser: function(userObj) {
+  setTrackingUser: function(userObj) {
     if (userObj.id != this.get('user').id) {
-      console.log('setUser', userObj);
+      this.logTracking('setTrackingUser', userObj);
       this.set('user', userObj);
       this.prepare();
     }
@@ -85,20 +87,23 @@ export default Ember.Mixin.create({
   },
   gaInit: function() {
     var globalVariable = Ember.getWithDefault(ENV, 'googleAnalytics.globalVariable', 'ga');
-    console.log('gaInit',  globalVariable);
-    /* jshint ignore:start */
-    (function(i, s, o, g, r, a, m) {
-      i.GoogleAnalyticsObject = r;
-      i[r] = i[r] || function() {
-        (i[r].q = i[r].q || []).push(arguments)
-      }, i[r].l = 1 * new Date();
-      a = s.createElement(o),
-        m = s.getElementsByTagName(o)[0];
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', globalVariable);
-    /* jshint ignore:end */
+    this.logTracking('gaInit',  globalVariable, 'did gaInit already run', this.get('gaInitialized'));
+    if (!this.get('gaInitialized')) {
+      /* jshint ignore:start */
+      (function(i, s, o, g, r, a, m) {
+        i.GoogleAnalyticsObject = r;
+        i[r] = i[r] || function() {
+          (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+          m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+      })(window, document, 'script', '//www.google-analytics.com/analytics.js', globalVariable);
+      /* jshint ignore:end */
+      this.set('gaInitialized', true);
+    }
   }.on('init'),
   analyticsTrackingCode: function() {
     var gaConfig = {};
@@ -127,7 +132,7 @@ export default Ember.Mixin.create({
         gaConfig = JSON.stringify(gaConfig);
       }
     }
-    console.log('analyticsTrackingCode', gaConfig, globalVariable, webPropertyId);
+    this.logTracking('analyticsTrackingCode', gaConfig, globalVariable, webPropertyId);
     /* jshint ignore:start */
     // moved intialization code
     window[globalVariable]('create', webPropertyId, gaConfig);
@@ -136,13 +141,12 @@ export default Ember.Mixin.create({
     if (displayFeatures) {
       window[globalVariable]('require', 'displayfeatures');
     }
-
-    return;
+    this.set('trackerInitialized', true);
   },
 
   prepare: function() {
     var webPropertyId = Ember.get(ENV, 'googleAnalytics.webPropertyId');
-    console.log('prepare', webPropertyId, this.get('user'));
+    this.logTracking('prepare', webPropertyId, this.get('user'));
     if (webPropertyId != null) {
       if (Ember.get(ENV, 'googleAnalytics.tracker') === 'analytics.js') {
         this.analyticsTrackingCode();
