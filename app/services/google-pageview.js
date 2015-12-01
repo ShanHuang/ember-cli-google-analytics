@@ -2,7 +2,7 @@ import Ember from 'ember';
 import ENV from '../config/environment';
 var computed = Ember.computed;
 
-export default Ember.Mixin.create({
+export default Ember.Service.create({
   webPropertyId: Ember.get(ENV, 'googleAnalytics.webPropertyId'),
   dimensionMap: {
     company: 'dimension0',
