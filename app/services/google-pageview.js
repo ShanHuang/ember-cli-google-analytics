@@ -2,7 +2,7 @@ import Ember from 'ember';
 import ENV from '../config/environment';
 var computed = Ember.computed;
 
-export default Ember.Service.extend({
+export default Ember.Object.extend({
   webPropertyId: Ember.get(ENV, 'googleAnalytics.webPropertyId'),
   dimensionMap: {
     company: 'dimension0',
