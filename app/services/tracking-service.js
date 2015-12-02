@@ -188,28 +188,33 @@ export default Ember.Object.extend({
     }
   },
   eventToGA: function(fields) {
-    if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
-      var trackerType = Ember.getWithDefault(ENV, 'googleAnalytics.tracker', 'analytics.js');
+    var fields = fields;
+    var _this = this;
+    return new Ember.RSVP.Promise(function() {
+      if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
+        var trackerType = Ember.getWithDefault(ENV, 'googleAnalytics.tracker', 'analytics.js');
 
-      if (trackerType === 'analytics.js') {
-        this.insertUserMeta();
-        if (fields != null) this.setTrackingMeta(fields);
-        var fieldsObj = this.get('dimensionRegistry');
-        var globalVariable = Ember.getWithDefault(ENV, 'googleAnalytics.globalVariable', 'ga');
+        if (trackerType === 'analytics.js') {
+          _this.insertUserMeta();
+          if (fields != null) _this.setTrackingMeta(fields);
+          var fieldsObj = _this.get('dimensionRegistry');
+          var globalVariable = Ember.getWithDefault(ENV, 'googleAnalytics.globalVariable', 'ga');
 
-        this.beforePageviewToGA(window[globalVariable]);
-        window[globalVariable]('set', fieldsObj);
-        window[globalVariable]('send', 'event');
-        // logging
-        this.logTracking('event', fieldsObj);
-        this.clearRegistry();
-      } else if (trackerType === 'ga.js') {
-        // not implemented
-        this.logTracking('ga.js call', 'event', fieldsObj);
-        this.clearRegistry();
+          _this.beforePageviewToGA(window[globalVariable]);
+          window[globalVariable]('set', fieldsObj);
+          window[globalVariable]('send', 'event');
+          // logging
+          _this.logTracking('event', fieldsObj);
+          _this.clearRegistry();
+        } else if (trackerType === 'ga.js') {
+          // not implemented
+          _this.logTracking('ga.js call', 'event', fieldsObj);
+          _this.clearRegistry();
+        }
       }
-    }
-    return;
+      resolve();
+    });
+
   },
   logTrackingEnabled: function() {
     return Ember.getWithDefault(ENV, 'googleAnalytics.logTracking', false);
