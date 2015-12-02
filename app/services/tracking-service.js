@@ -163,7 +163,7 @@ export default Ember.Object.extend({
 
     var fieldsObj = this.get('dimensionRegistry');
     fieldsObj.page = page;
-    fieldsObj.pageTitle = fieldsObj.pageTitle || title ;
+    fieldsObj.title = fieldsObj.title || title ;
 
     if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
       Ember.run.schedule('afterRender', function callSendGA() {
