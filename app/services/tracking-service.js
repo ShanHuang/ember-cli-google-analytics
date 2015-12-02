@@ -165,8 +165,8 @@ export default Ember.Object.extend({
     this.insertUserMeta();
 
     var fieldsObj = this.get('dimensionRegistry');
-    fieldsObj.page = page ? page : this.get('url');
-    fieldsObj.title = fieldsObj.title || title ? title : this.get('url');
+    fieldsObj.page = page;
+    fieldsObj.title = fieldsObj.title || title ;
 
     if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
       Ember.run.schedule('afterRender', function callSendGA() {
