@@ -19,7 +19,7 @@ export default Ember.Object.extend({
     sessionId: 'dimension18',
     clientId:  'dimension19',
     page: 'page',
-    title: 'title',
+    pageTitle: 'title',
     // allows event data to be configured
     eventCategory: 'eventCategory',
     eventAction: 'eventAction',
@@ -163,7 +163,7 @@ export default Ember.Object.extend({
 
     var fieldsObj = this.get('dimensionRegistry');
     fieldsObj.page = page;
-    fieldsObj.title = fieldsObj.title || title ;
+    fieldsObj.pageTitle = fieldsObj.pageTitle || title ;
 
     if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
       Ember.run.schedule('afterRender', function callSendGA() {
