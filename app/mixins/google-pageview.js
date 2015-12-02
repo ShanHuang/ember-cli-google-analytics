@@ -10,17 +10,31 @@ export default Ember.Mixin.create({
   trackerInitialized: Ember.computed.reads('trackingService.trackerInitialized'),
 
   eventTypes: Ember.computed.reads('trackingService.eventTypes'),
-  setTrackingUser: trackingService.setTrackingUser,
+  setTrackingUser: function(userObj) {
+    trackingService.setTrackingUser(userObj);
+  },
   beforePageviewToGA: function(ga) {
 
   },
-  clearRegistry: trackingService.clearRegistry,
-  setTrackingMeta: trackingService.setTrackingMeta,
-  insertUserMeta: trackingService.insertUserMeta,
+  clearRegistry: function() {
+    trackingService.clearRegistry();
+  },
+  setTrackingMeta: function(metaObj) {
+    trackingService.setTrackingMeta(metaObj);
+  },
+  insertUserMeta: function() {
+    trackingService.insertUserMeta;
+  },
 
-  pageviewToGA: Ember.on('didTransition', trackingService.pageviewToGA),
-  eventToGA: trackingService.eventToGA,
-  logTrackingEnabled: trackingService.logTrackingEnabled,
+  pageviewToGA: Ember.on('didTransition', function(page, title) {
+    trackingService.pageviewToGA(page, title);
+  }),
+  eventToGA: function(fields) {
+    trackingService.eventToGA(fields);
+  },
+  logTrackingEnabled: Ember.computed.reads('trackingService.logTrackingEnabled'),
 
-  logTracking: trackingService.logTracking
+  logTracking: function() {
+    trackingService.logTracking(arguments);
+  }
 });
