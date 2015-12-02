@@ -62,10 +62,7 @@ export default Ember.Object.extend({
 
   },
   clearRegistry: function() {
-    var dReg = this.get('dimensionRegistry');
-    dReg = {};
-
-    return;
+    this.set('dimensionRegistry', { });
   },
   setTrackingMeta: function(metaObj) {
     var dMap = this.get('dimensionMap');
