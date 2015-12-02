@@ -28,7 +28,7 @@ export default Ember.Mixin.create({
 
   pageviewToGA: Ember.on('didTransition', function(page, title) {
     page = page ? page : this.get('url');
-    title = fieldsObj.title || title ? title : this.get('url');
+    title = title ? title : this.get('url');
     this.trackingService.pageviewToGA(page, title);
   }),
   eventToGA: function(fields) {
