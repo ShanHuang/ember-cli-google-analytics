@@ -160,7 +160,7 @@ export default Ember.Object.extend({
       }
     }
   },
-  pageviewToGA: Ember.on('didTransition', function(page, title) {
+  pageviewToGA: function(page, title) {
     var _this = this;
     this.insertUserMeta();
 
@@ -189,7 +189,7 @@ export default Ember.Object.extend({
         }
       });
     }
-  }),
+  },
   eventToGA: function(fields) {
     if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
       var trackerType = Ember.getWithDefault(ENV, 'googleAnalytics.tracker', 'analytics.js');
