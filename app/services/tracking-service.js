@@ -205,6 +205,7 @@ export default Ember.Object.extend({
           window[globalVariable]('send', 'event');
           // logging
           _this.logTracking('event', fieldsObj);
+          alert('event', fieldsObj);
           _this.clearRegistry();
         } else if (trackerType === 'ga.js') {
           // not implemented
