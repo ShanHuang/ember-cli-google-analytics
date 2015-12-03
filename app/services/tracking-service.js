@@ -190,7 +190,7 @@ export default Ember.Object.extend({
   eventToGA: function(fields) {
     var fields = fields;
     var _this = this;
-    return new Ember.RSVP.Promise(function() {
+    return new Ember.RSVP.Promise(function(resolve, reject) {
       if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
         var trackerType = Ember.getWithDefault(ENV, 'googleAnalytics.tracker', 'analytics.js');
 
