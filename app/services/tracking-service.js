@@ -5,19 +5,21 @@ var computed = Ember.computed;
 export default Ember.Object.extend({
   webPropertyId: Ember.get(ENV, 'googleAnalytics.webPropertyId'),
   dimensionMap: {
-    company: 'dimension0',
-    department: 'dimension1',
-    title: 'dimension2',
-    uuid: 'dimension3',
+    company: 'dimension1',
+    department: 'dimension2',
+    title: 'dimension3',
+    uuid: 'dimension4',
     // reserving 4 to  9 for additional user dimensions
-    pageType: 'dimension10', // 'search'|'filter'|'nav'|'detail'
+    hitType: 'dimension5', // 'search'|'filter'|'nav'|'detail'
+    searchCriteriaJson: 'dimension6', //a json.stringify of all search criteria for tableau use
     searchText: 'dimension11',
-    searchCriteriaJson: 'dimension12', //a json.stringify of all search criteria for tableau use
 
     // will make this data availalble to the api
     hitTimestamp: 'dimension17',
     sessionId: 'dimension18',
     clientId:  'dimension19',
+
+    // for pageview calls
     page: 'page',
     pageTitle: 'title',
     // allows event data to be configured
