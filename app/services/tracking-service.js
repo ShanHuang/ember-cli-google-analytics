@@ -43,7 +43,7 @@ export default Ember.Object.extend({
     return this.get('notLoggedIn') ? null : this.get('user').uuid;
   }.property('user'),
   userCompany: function() {
-    return this.get('notLoggedIn') ? null : this.get('user').company;
+    return this.get('notLoggedIn') ? null : this.get('user').companyName;
   }.property('user'),
   userDepartment: function() {
     return this.get('notLoggedIn') ? null : this.get('user').department;
