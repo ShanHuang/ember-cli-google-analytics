@@ -12,12 +12,12 @@ export default Ember.Object.extend({
     // reserving 4 to  9 for additional user dimensions
     hitType: 'dimension5', // 'search'|'filter'|'nav'|'detail'
     searchCriteriaJson: 'dimension6', //a json.stringify of all search criteria for tableau use
-    searchText: 'dimension11',
+    searchText: 'dimension7',
 
-    // will make this data availalble to the api
-    hitTimestamp: 'dimension17',
-    sessionId: 'dimension18',
-    clientId:  'dimension19',
+    // will make this data availalble to the api - not implemented yet
+    // hitTimestamp: 'dimension17',
+    // sessionId: 'dimension18',
+    // clientId:  'dimension19',
 
     // for pageview calls
     page: 'page',
@@ -37,8 +37,9 @@ export default Ember.Object.extend({
   notLoggedIn: computed.empty('user'),
   gaInitialized: false,
   trackerInitialized: false,
+  earlyPageview: false,
   uuid: function() {
-    this.logTracking('detected user change', this.get('user'));
+    this.logTracking('detected user change', this.get('user').uuid);
     // return this.get('notLoggedIn') ? null : this.get('user').uuid;
     return this.get('notLoggedIn') ? null : this.get('user').uuid;
   }.property('user'),
@@ -51,7 +52,7 @@ export default Ember.Object.extend({
   userTitle: function() {
     return this.get('notLoggedIn') ? null : this.get('user').title;
   }.property('user'),
-  eventTypes: ['map_chart_interact', 'save_query', 'download', 'other_button'],
+  eventActionsTypes: ['map_chart_interact', 'save_query', 'download', 'other_button'],
   setTrackingUser: function(userObj) {
     if (userObj.id != this.get('user').id) {
       this.logTracking('setTrackingUser', userObj);
@@ -155,17 +156,27 @@ export default Ember.Object.extend({
         //as legacy left google script init for this in the /index.js  content_for
         this.logTracking('ga.js call ', 'deprecated');
       } else {
+        this.set('trackerInitialized', true);
         throw new Error('Invalid tracker found in configuration: "' + Ember.get(ENV, 'googleAnalytics.tracker') + '". Must be one of: "analytics.js", "ga.js"');
+      }
+      if (this.get('earlyPageview')) {
+        this.set('earlyPageview', false);
+        this.pageviewToGA();
       }
     }
   },
   pageviewToGA: function(page, title) {
+    var fieldsObj = this.get('dimensionRegistry');
+    fieldsObj.page = fieldsObj.page || page;
+    fieldsObj.title = fieldsObj.title || title;
+
+    if (!this.get('trackerInitialized')) {
+      this.set('earlyPageview', true);
+      this.logTracking('pageview earlycall', fieldsObj, page, title);
+      return;
+    }
     var _this = this;
     this.insertUserMeta();
-
-    var fieldsObj = this.get('dimensionRegistry');
-    fieldsObj.page = page;
-    fieldsObj.title = fieldsObj.title || title ;
 
     if (Ember.get(ENV, 'googleAnalytics.webPropertyId') != null) {
       Ember.run.schedule('afterRender', function callSendGA() {
@@ -207,7 +218,7 @@ export default Ember.Object.extend({
           window[globalVariable]('send', 'event');
           // logging
           _this.logTracking('event', fieldsObj);
-          alert('event', fieldsObj);
+          alert();
           _this.clearRegistry();
         } else if (trackerType === 'ga.js') {
           // not implemented
