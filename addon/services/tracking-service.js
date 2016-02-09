@@ -187,14 +187,14 @@ export default Ember.Object.extend({
     }
   },
 
-  pageviewToGA(page, title) {
+  pageviewToGA(url) {
     let fieldsObj = this.get('dimensionRegistry');
-    fieldsObj.page = fieldsObj.page || page;
-    fieldsObj.title = fieldsObj.title || title;
+    fieldsObj.page = fieldsObj.page || url;
+    fieldsObj.title = fieldsObj.title || url;
 
     if (!this.get('trackerInitialized')) {
       this.set('earlyPageview', true);
-      this.logTracking('pageview earlycall', fieldsObj, page, title);
+      this.logTracking('pageview earlycall', fieldsObj, url);
       return;
     }
 

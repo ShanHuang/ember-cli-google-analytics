@@ -31,13 +31,9 @@ export default Ember.Mixin.create({
     this.get('trackingService').insertUserMeta(...arguments);
   },
 
-  didTransition(page, title) {
+  didTransition() {
     this._super(...arguments);
-
-    page = page ? page : this.get('url');
-    title = title ? title : this.get('url');
-
-    this.get('trackingService').pageviewToGA(page, title);
+    this.get('trackingService').pageviewToGA(this.get('url'));
   },
 
   eventToGA(fields) {
