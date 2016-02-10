@@ -204,7 +204,7 @@ export default Ember.Object.extend({
     if (isNone(webPropertyId)) {
       return;
     }
-
+    this.logTracking('pageview pre schedule', fieldsObj, url);
     Ember.run.schedule('afterRender', this, function callSendGA() {
       let webPropertyId = get(ENV, 'googleAnalytics.webPropertyId');
       if (isNone(webPropertyId)) {
