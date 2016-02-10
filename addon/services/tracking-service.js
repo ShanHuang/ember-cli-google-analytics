@@ -214,7 +214,8 @@ export default Ember.Object.extend({
       let globalVariable = get(ENV, 'googleAnalytics.globalVariable') || DEFAULT_GLOBAL_VARIABLE;
 
       this.beforePageviewToGA(window[globalVariable]);
-
+      this.logTracking('pageview before gacall', fieldsObj, ENV.environment);
+      
       if (ENV.environment !== 'test') {
         window[globalVariable]('set', fieldsObj);
         window[globalVariable]('send', 'pageview');
