@@ -4,7 +4,7 @@ import ENV from 'ember-get-config';
 const { computed, get, isNone } = Ember;
 const DEFAULT_GLOBAL_VARIABLE = 'ga';
 
-export default Ember.Object.extend({
+export default Ember.Service.extend({
   eventActionsTypes: ['map_chart_interact', 'save_query', 'download', 'other_button'],
   dimensionMap: {
     company: 'dimension1',
