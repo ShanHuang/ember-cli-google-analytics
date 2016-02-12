@@ -2,7 +2,7 @@ import Ember from 'ember';
 import ENV from '../config/environment';
 var computed = Ember.computed;
 
-export default Ember.Object.extend({
+export default Ember.Service.extend({
   webPropertyId: Ember.get(ENV, 'googleAnalytics.webPropertyId'),
   dimensionMap: {
     company: 'dimension1',
@@ -167,7 +167,7 @@ export default Ember.Object.extend({
   },
   pageviewToGA: function(page, title) {
     var fieldsObj = this.get('dimensionRegistry');
-    fieldsObj.page = fieldsObj.page || page;
+    fieldsObj.page =  page;
     fieldsObj.title = fieldsObj.title || title;
 
     if (!this.get('trackerInitialized')) {
