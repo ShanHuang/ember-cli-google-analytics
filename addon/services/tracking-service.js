@@ -61,7 +61,9 @@ export default Ember.Service.extend({
       window[globalVariable].l = 1 * new Date();
 
       let script = document.createElement('script');
-      let [firstScript] = document.getElementsByTagName('script');
+      // jscs:disable requireArrayDestructuring
+      let firstScript = document.getElementsByTagName('script')[0];
+      // jscs:enable requireArrayDestructuring
 
       script.async = true;
       script.src = '//www.google-analytics.com/analytics.js';
@@ -189,7 +191,7 @@ export default Ember.Service.extend({
 
   pageviewToGA(url) {
     let fieldsObj = this.get('dimensionRegistry');
-    fieldsObj.page = fieldsObj.page || url;
+    fieldsObj.page = url;
     fieldsObj.title = fieldsObj.title || url;
 
     if (!this.get('trackerInitialized')) {

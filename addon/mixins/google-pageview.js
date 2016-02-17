@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { computed, inject } = Ember;
+const { computed, inject, on } = Ember;
 
 export default Ember.Mixin.create({
   trackingService: inject.service('tracking-service'),
@@ -31,10 +31,9 @@ export default Ember.Mixin.create({
     this.get('trackingService').insertUserMeta(...arguments);
   },
 
-  didTransition() {
-    this._super(...arguments);
+  pageviewToGA: on('didTransition', function pageviewToGA() {
     this.get('trackingService').pageviewToGA(this.get('url'));
-  },
+  }),
 
   eventToGA(fields) {
     this.get('trackingService').eventToGA(fields);
