@@ -1,6 +1,6 @@
 'use strict';
 
-var merge = require('lodash-node/compat/objects/merge');
+var merge = require('lodash.merge');
 var googleAnalyticsConfigDefaults = {
   globalVariable: 'ga',
   tracker: 'analytics.js',
