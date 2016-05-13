@@ -15,7 +15,7 @@ export default Ember.Service.extend({
     searchText: 'dimension7',
 
     // will make this data availalble to the api - not implemented yet
-    // hitTimestamp: 'dimension17',
+    hitTimestamp: 'dimension17',
     // sessionId: 'dimension18',
     // clientId:  'dimension19',
 
@@ -62,7 +62,26 @@ export default Ember.Service.extend({
 
   },
   beforePageviewToGA: function(ga) {
-
+    this.setTrackingMeta({
+      hitTimestamp: this.setTimestamp()
+    });
+  },
+  setTimestamp: function() {
+    // Get local time as ISO string with offset at the end
+    var now = new Date();
+    // var tzo = -now.getTimezoneOffset();
+    // var dif = tzo >= 0 ? '+' : '-';
+    var pad = function(num) {
+      var norm = Math.abs(Math.floor(num));
+      return (norm < 10 ? '0' : '') + norm;
+    };
+    return now.getFullYear() +
+          '-' + pad(now.getMonth() + 1) +
+          '-' + pad(now.getDate()) +
+          'T' + pad(now.getHours()) +
+          ':' + pad(now.getMinutes()) +
+          ':' + pad(now.getSeconds()) +
+          '.' + pad(now.getMilliseconds());
   },
   clearRegistry: function() {
     this.set('dimensionRegistry', { });
