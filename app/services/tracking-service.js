@@ -28,6 +28,9 @@ export default Ember.Service.extend({
     eventLabel: 'eventLabel',
     eventValue: 'eventValue'
   },
+  constructor() {
+
+  },
   dimensionRegistry: {},
   user: function() {
     return null;
