@@ -57,7 +57,7 @@ export default Ember.Service.extend({
   }.property('user'),
   eventActionsTypes: ['map_chart_interact', 'save_query', 'download', 'other_button'],
   setTrackingUser: function(userObj) {
-    if (userObj.id != this.get('user').id) {
+    if (userObj.id !== this.get('user').id) {
       this.logTracking('setTrackingUser', userObj);
       this.set('user', userObj);
       this.prepare();
@@ -93,7 +93,7 @@ export default Ember.Service.extend({
     var dMap = this.get('dimensionMap');
     var dReg = this.get('dimensionRegistry');
     for (var property in metaObj) {
-      if (dMap[property] && metaObj[property] != undefined && metaObj[property] != null) {
+      if (dMap[property] && metaObj[property] !== undefined && metaObj[property] !== null) {
         dReg[dMap[property]] = metaObj[property];
       }
     }
@@ -231,7 +231,7 @@ export default Ember.Service.extend({
 
         if (trackerType === 'analytics.js') {
           _this.insertUserMeta();
-          if (fields != null) _this.setTrackingMeta(fields);
+          if (fields !== null) _this.setTrackingMeta(fields);
           var fieldsObj = _this.get('dimensionRegistry');
           var globalVariable = Ember.getWithDefault(ENV, 'googleAnalytics.globalVariable', 'ga');
 
@@ -244,7 +244,7 @@ export default Ember.Service.extend({
           _this.clearRegistry();
         } else if (trackerType === 'ga.js') {
           // not implemented
-          _this.logTracking('ga.js call', 'event', fieldsObj);
+          _this.logTracking('ga.js call', 'event', {});
           _this.clearRegistry();
         }
       }
