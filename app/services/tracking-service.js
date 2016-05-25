@@ -12,10 +12,10 @@ export default Ember.Service.extend({
     // reserving 4 to  9 for additional user dimensions
     hitType: 'dimension5', // 'search'|'filter'|'nav'|'detail'
     searchCriteriaJson: 'dimension6', //a json.stringify of all search criteria for tableau use
-    searchText: 'dimension7',
-
     // will make this data availalble to the api - not implemented yet
-    hitTimestamp: 'dimension17',
+    hitTimestamp: 'dimension7',
+    // searchText: 'dimension8',
+
     // sessionId: 'dimension18',
     // clientId:  'dimension19',
 
