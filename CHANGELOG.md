@@ -1,5 +1,8 @@
 # ember-cli-google-analytics Changelog
 
+### v1.5.1
+* [ENHANCEMENT] Use `Ember.Service` for `tracking-service` to make this addon Ember 2.x compatible
+
 ### v1.5.0
 
 * [FEATURE] [#12](https://github.com/pgrippi/ember-cli-google-analytics/pull/12) Added callback function to send additional data before pageview is sent
