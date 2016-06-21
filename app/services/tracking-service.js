@@ -72,8 +72,6 @@ export default Ember.Service.extend({
   createTimestampText: function() {
     // Get local time as ISO string with offset at the end
     var now = new Date();
-    // var tzo = -now.getTimezoneOffset();
-    // var dif = tzo >= 0 ? '+' : '-';
     var pad = function(num) {
       var norm = Math.abs(Math.floor(num));
       return (norm < 10 ? '0' : '') + norm;
@@ -93,7 +91,7 @@ export default Ember.Service.extend({
     var dMap = this.get('dimensionMap');
     var dReg = this.get('dimensionRegistry');
     for (var property in metaObj) {
-      if (dMap[property] && metaObj[property] !== undefined && metaObj[property] !== null) {
+      if (dMap[property] && !!metaObj[property]) {
         dReg[dMap[property]] = metaObj[property];
       }
     }
