@@ -12,10 +12,10 @@ export default Ember.Service.extend({
     // reserving 4 to  9 for additional user dimensions
     hitType: 'dimension5', // 'search'|'filter'|'nav'|'detail'
     searchCriteriaJson: 'dimension6', //a json.stringify of all search criteria for tableau use
-    searchText: 'dimension7',
-
     // will make this data availalble to the api - not implemented yet
-    // hitTimestamp: 'dimension17',
+    hitTimestamp: 'dimension7',
+    // searchText: 'dimension8',
+
     // sessionId: 'dimension18',
     // clientId:  'dimension19',
 
@@ -27,6 +27,9 @@ export default Ember.Service.extend({
     eventAction: 'eventAction',
     eventLabel: 'eventLabel',
     eventValue: 'eventValue'
+  },
+  constructor() {
+
   },
   dimensionRegistry: {},
   user: function() {
@@ -54,7 +57,7 @@ export default Ember.Service.extend({
   }.property('user'),
   eventActionsTypes: ['map_chart_interact', 'save_query', 'download', 'other_button'],
   setTrackingUser: function(userObj) {
-    if (userObj.id != this.get('user').id) {
+    if (userObj.id !== this.get('user').id) {
       this.logTracking('setTrackingUser', userObj);
       this.set('user', userObj);
       this.prepare();
@@ -62,7 +65,26 @@ export default Ember.Service.extend({
 
   },
   beforePageviewToGA: function(ga) {
-
+    this.setTrackingMeta({
+      hitTimestamp: this.createTimestampText()
+    });
+  },
+  createTimestampText: function() {
+    // Get local time as ISO string with offset at the end
+    var now = new Date();
+    // var tzo = -now.getTimezoneOffset();
+    // var dif = tzo >= 0 ? '+' : '-';
+    var pad = function(num) {
+      var norm = Math.abs(Math.floor(num));
+      return (norm < 10 ? '0' : '') + norm;
+    };
+    return now.getFullYear() +
+          '-' + pad(now.getMonth() + 1) +
+          '-' + pad(now.getDate()) +
+          'T' + pad(now.getHours()) +
+          ':' + pad(now.getMinutes()) +
+          ':' + pad(now.getSeconds()) +
+          '.' + pad(now.getMilliseconds());
   },
   clearRegistry: function() {
     this.set('dimensionRegistry', { });
@@ -71,7 +93,7 @@ export default Ember.Service.extend({
     var dMap = this.get('dimensionMap');
     var dReg = this.get('dimensionRegistry');
     for (var property in metaObj) {
-      if (dMap[property] && metaObj[property] != undefined && metaObj[property] != null) {
+      if (dMap[property] && metaObj[property] !== undefined && metaObj[property] !== null) {
         dReg[dMap[property]] = metaObj[property];
       }
     }
@@ -209,7 +231,7 @@ export default Ember.Service.extend({
 
         if (trackerType === 'analytics.js') {
           _this.insertUserMeta();
-          if (fields != null) _this.setTrackingMeta(fields);
+          if (fields !== null) _this.setTrackingMeta(fields);
           var fieldsObj = _this.get('dimensionRegistry');
           var globalVariable = Ember.getWithDefault(ENV, 'googleAnalytics.globalVariable', 'ga');
 
@@ -222,7 +244,7 @@ export default Ember.Service.extend({
           _this.clearRegistry();
         } else if (trackerType === 'ga.js') {
           // not implemented
-          _this.logTracking('ga.js call', 'event', fieldsObj);
+          _this.logTracking('ga.js call', 'event', {});
           _this.clearRegistry();
         }
       }

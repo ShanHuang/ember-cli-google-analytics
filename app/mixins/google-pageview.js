@@ -1,15 +1,14 @@
 import Ember from 'ember';
-import ENV from '../config/environment';
 var computed = Ember.computed;
 
 export default Ember.Mixin.create({
   trackingService: Ember.inject.service('tracking-service'),
 
-  notLoggedIn: Ember.computed.reads('trackingService.notLoggedIn'),
-  gaInitialized: Ember.computed.reads('trackingService.gaInitialized'),
-  trackerInitialized: Ember.computed.reads('trackingService.trackerInitialized'),
+  notLoggedIn: computed.reads('trackingService.notLoggedIn'),
+  gaInitialized: computed.reads('trackingService.gaInitialized'),
+  trackerInitialized: computed.reads('trackingService.trackerInitialized'),
 
-  eventTypes: Ember.computed.reads('trackingService.eventTypes'),
+  eventTypes: computed.reads('trackingService.eventTypes'),
   setTrackingUser: function(userObj) {
     this.get('trackingService').setTrackingUser(userObj);
   },
@@ -34,7 +33,7 @@ export default Ember.Mixin.create({
   eventToGA: function(fields) {
     this.get('trackingService').eventToGA(fields);
   },
-  logTrackingEnabled: Ember.computed.reads('trackingService.logTrackingEnabled'),
+  logTrackingEnabled: computed.reads('trackingService.logTrackingEnabled'),
 
   logTracking: function() {
     this.get('trackingService').logTracking(arguments);
