@@ -74,7 +74,7 @@ export default Ember.Service.extend({
     // Get local time as ISO string with offset at the end
     // TODO make UTC time format
     var now = new Date();
-    return moment.utc(now);
+    return moment.utc(now).format();
   },
   clearRegistry: function() {
     this.set('dimensionRegistry', { });
