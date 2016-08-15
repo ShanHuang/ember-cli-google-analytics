@@ -1,5 +1,7 @@
 import Ember from 'ember';
 import ENV from '../config/environment';
+import moment from 'moment';
+
 var computed = Ember.computed;
 
 export default Ember.Service.extend({
@@ -70,19 +72,10 @@ export default Ember.Service.extend({
     });
   },
   createTimestampText: function() {
-    // Get local time as ISO string with offset at the end
+    // Get local time as UTC string
     var now = new Date();
-    var pad = function(num) {
-      var norm = Math.abs(Math.floor(num));
-      return (norm < 10 ? '0' : '') + norm;
-    };
-    return now.getFullYear() +
-          '-' + pad(now.getMonth() + 1) +
-          '-' + pad(now.getDate()) +
-          'T' + pad(now.getHours()) +
-          ':' + pad(now.getMinutes()) +
-          ':' + pad(now.getSeconds()) +
-          '.' + pad(now.getMilliseconds());
+    return moment.utc(now).format();
+
   },
   clearRegistry: function() {
     this.set('dimensionRegistry', { });
